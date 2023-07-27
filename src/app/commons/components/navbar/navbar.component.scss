@@ -1,0 +1,24 @@
+.drop-down-visible {
+  display: block !important;
+}
+
+.dropdown > button {
+  background: transparent;
+  border-style: none;
+}
+
+.navbar .dropdown-menu.dropdown-menu-end.navbar-dropdown-caret {
+  left: auto;
+  right: -0.5625rem;
+  top: 4.1rem
+}
+
+
+.navbar-background {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}

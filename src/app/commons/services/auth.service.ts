@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import {AuthLogin} from "../interfaces/auth-login";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthToken} from "../interfaces/auth-token";
+import {environment} from "../../../environments/environment";
+import {AuthUser} from "../interfaces/auth-user";
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +18,24 @@ export class AuthService {
     const loginRequest: AuthLogin = {
           password,
           username,
-          client_id: '99be762b-6c35-455a-84e2-6691d44359b9',
-          client_secret: '3cgEECpj6y6xYgsrqCq6Ga5U0ib8GO69reOilUfk',
-          grant_type: 'password',
+          client_id: environment.client_id,
+          client_secret: environment.client_secret,
+          grant_type: environment.grant_type,
           scope: '',
     };
 
-    return this.http.post<AuthToken>('http://127.0.0.1:8000/oauth/token',loginRequest);
+    return this.http.post<AuthToken>(environment.authToken,loginRequest);
 
+  }
+
+  public userConfig() {
+    const authToken = JSON.parse(sessionStorage.getItem('authToken') as string) as AuthToken;
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('X-Requested-With','XMLHttpRequest')
+      .set('Authorization',`Bearer ${authToken.access_token}`);
+
+    return this.http.get<AuthUser>(environment.authUserConfig, {headers});
   }
 
 }
