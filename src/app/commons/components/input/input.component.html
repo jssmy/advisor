@@ -1,0 +1,13 @@
+
+<label *ngIf="label" class="form-label" [for]="id" >{{label}}</label>
+<div class="form-icon-container">
+  <input class="form-control form-icon-input"
+          (input)="onInput($event)"
+         (blur)="onTouch()"
+         [id]="id"
+         [type]="type"
+         [disabled]="isDisabled"
+         [placeholder]="placeHolder">
+    <ng-content select="[icon]"></ng-content>
+</div>
+<span *ngIf="error" class="form-label alert-danger">{{error}}</span>
