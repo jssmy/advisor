@@ -1,3 +1,4 @@
+<app-screen-loader *ngIf="isLoadingRevoke"></app-screen-loader>
 <div class="navbar-background" (click)="onNavbarBackground()"></div>
 <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
   <div class="navbar-logo">
@@ -98,7 +99,7 @@
               <div class="avatar avatar-xl ">
                 <img class="rounded-circle " src="/assets/images/logo.png" alt="">
               </div>
-              <h6 class="mt-2 text-black">Jerry Seinfield</h6>
+              <h6 class="mt-2 text-black">{{(authUserConfig$ | async)?.user?.name }}</h6>
             </div>
           </div>
           <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -131,22 +132,26 @@
                   <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                Centrod de ayuda</a></li>
+                Centro de ayuda</a></li>
 
             </ul>
           </div>
           <div class="card-footer p-0 border-top">
-            <div class="px-3"><a class="btn btn-phoenix-secondary d-flex flex-center w-100"
-                                 href="https://prium.github.io/phoenix/v1.13.0/index.html?theme-control=true&amp;navigation-type=horizontal#!">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                   class="feather feather-log-out me-2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-              Cerrar sesión</a></div>
-            <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1"
+            <div class="px-3">
+              <button (click)="onCloseSession()"  class="btn btn-phoenix-secondary d-flex flex-center w-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-log-out me-2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Cerrar sesión
+              </button>
+
+            </div>
+            <div class="my-2 text-center fw-bold fs--2 text-600">
+              <a class="text-600 me-1"
                                                                     href="https://prium.github.io/phoenix/v1.13.0/index.html?theme-control=true&amp;navigation-type=horizontal#!">Privacy
               policy</a>•<a class="text-600 mx-1"
                             href="https://prium.github.io/phoenix/v1.13.0/index.html?theme-control=true&amp;navigation-type=horizontal#!">Terms</a>•<a

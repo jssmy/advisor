@@ -1,7 +1,7 @@
-import {AuthUserState} from "./auth-user-state";
+import {AuthUserState} from "../user/states/auth-user-state";
 import {AuthTokenState} from "./auth-token-state";
 
 export interface AppState {
-  authTokenState: AuthTokenState;
   userState: AuthUserState;
+  authTokenState: AuthTokenState
 }

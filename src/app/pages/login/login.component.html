@@ -1,4 +1,4 @@
-<app-screen-loader *ngIf="isActiveLoader"></app-screen-loader>
+<app-screen-loader *ngIf="(isActiveLoader$ | async)"></app-screen-loader>
 <main class="main" id="top">
   <div class="container">
     <div class="row flex-center min-vh-100 py-5">
@@ -33,7 +33,7 @@
                       formControlName="password"
                       type="password"
                       placeHolder="********"
-                      [error]="loginFormPresenter.getControlError('username')"
+                      [error]="loginFormPresenter.getControlError('password')"
                       label="Contraseña">
              <svg icon class="svg-inline--fa fa-key text-900 fs--1 form-icon" aria-hidden="true" focusable="false"
                   data-prefix="fas" data-icon="key" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
