@@ -5,11 +5,12 @@ import {Store} from "@ngrx/store";
 import {selectAuthUserConfig} from "../../../store/user/selectors/auth-user.selector";
 import {AppState} from "../../../store/interfaces/app-state";
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {GlobalRoutes} from "../../constants/global-routes";
 import {ScreenLoaderComponent} from "../screen-loader/screen-loader.component";
 import {cleanAccessTokenStore} from "../../../store/access-token/actions/access-token.actions";
 import {cleanAuthUserConfigStorage} from "../../../store/user/action/auth-user.action";
+import {Permissions} from "../../../store/user/models/auth-user";
 
 @Component({
   selector: 'app-navbar',
@@ -18,13 +19,15 @@ import {cleanAuthUserConfigStorage} from "../../../store/user/action/auth-user.a
   standalone: true,
   imports: [
     CommonModule,
-    ScreenLoaderComponent
+    ScreenLoaderComponent,
+    RouterLink
   ]
 })
 export class NavbarComponent implements OnDestroy {
   appConfig = AppConfig;
   isEnabledUserSettings = false;
   authUserConfig$ = this.store.select(selectAuthUserConfig);
+
   isLoadingRevoke = false;
   constructor(
     private readonly store: Store<AppState>,
@@ -43,14 +46,33 @@ export class NavbarComponent implements OnDestroy {
   onCloseSession() {
     this.isLoadingRevoke = true;
     this.authService.logout().subscribe({
-      next: () => {
-        sessionStorage.clear();
-        this.store.dispatch(cleanAccessTokenStore());
-        this.store.dispatch(cleanAuthUserConfigStorage());
-        this.router.navigate([GlobalRoutes.LOGIN]).finally();
-      },
-      error: () => this.isLoadingRevoke = false
+      next: () => this.cleanSession(),
+      error: (error) => {
+        this.isLoadingRevoke = false;
+        if (error.status === 401) {
+            this.cleanSession();
+        }
+
+      }
     });
+  }
+
+  cleanSession() {
+    localStorage.clear();
+    this.store.dispatch(cleanAccessTokenStore());
+    this.store.dispatch(cleanAuthUserConfigStorage());
+    this.router.navigate([GlobalRoutes.LOGIN]).finally();
+  }
+
+  getRouteLink(route: string) {
+    return [
+      ...route.split('/')
+    ];
+  }
+
+  getMenuPermissions(permissions: Permissions[]) {
+
+    return permissions.filter(prms => prms.type === 'menu');
   }
 
   ngOnDestroy() {

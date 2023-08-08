@@ -2,5 +2,7 @@ export enum GlobalRoutes  {
   MAIN = '',
   LOGIN = 'login',
   PAGE= 'page',
-  DASHBOARD = 'dashboard'
+  DASHBOARD = 'dashboard',
+  SELLER_SERVICES = 'seller-services',
+  STATIONS = 'stations'
 }

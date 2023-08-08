@@ -1,12 +1,12 @@
 <app-screen-loader *ngIf="isLoadingRevoke"></app-screen-loader>
-<div class="navbar-background" (click)="onNavbarBackground()"></div>
+<div *ngIf="isEnabledUserSettings" class="navbar-background" (click)="onNavbarBackground()"></div>
 <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
   <div class="navbar-logo">
     <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse"
             aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
       class="toggle-line"></span></span></button>
-    <a class="navbar-brand me-1 me-sm-3" href="https://prium.github.io/phoenix/v1.13.0/index.html">
+    <a class="navbar-brand me-1 me-sm-3" href="">
       <div class="d-flex align-items-center">
         <div class="d-flex align-items-center"><img src="/assets/images/logo.png" alt="phoenix" width="27">
           <p class="logo-text ms-2 d-none d-sm-block">{{appConfig.app()}}</p>
@@ -21,31 +21,19 @@
         <a class="nav-link dropdown-toggle lh-1"
                                        href="#"
                                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                       aria-haspopup="true" aria-expanded="false">Home</a>
+                                       aria-haspopup="true" aria-expanded="false">Inicio</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link dropdown-toggle lh-1"
-           href="#"
-           role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-           aria-haspopup="true" aria-expanded="false">Compara precios</a>
-      </li><li class="nav-item">
-      <a class="nav-link dropdown-toggle lh-1"
-         href="#"
-         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-         aria-haspopup="true" aria-expanded="false">Servicio de transporte</a>
-    </li>
-      <li class="nav-item">
-        <a class="nav-link dropdown-toggle lh-1"
-           href="#"
-           role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-           aria-haspopup="true" aria-expanded="false">Solicita transporte</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link dropdown-toggle lh-1"
-           href="#"
-           role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-           aria-haspopup="true" aria-expanded="false">Consultoría</a>
-      </li>
+      <ng-container *ngIf="(authUserConfig$ | async) as config">
+        <ng-container *ngFor="let permission of getMenuPermissions(config.permissions)">
+          <li class="nav-item">
+            <a class="nav-link dropdown-toggle lh-1"
+               [routerLink]="getRouteLink(permission.route)"
+               role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+               aria-haspopup="true" aria-expanded="false">{{permission.name}}</a>
+          </li>
+        </ng-container>
+
+      </ng-container>
 
     </ul>
   </div>
@@ -100,6 +88,7 @@
                 <img class="rounded-circle " src="/assets/images/logo.png" alt="">
               </div>
               <h6 class="mt-2 text-black">{{(authUserConfig$ | async)?.user?.name }}</h6>
+              <h6 style="color: #636b6b !important;" class="mt-2 text-black g-1 ">{{(authUserConfig$ | async)?.grant?.name }}</h6>
             </div>
           </div>
           <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -138,7 +127,7 @@
           </div>
           <div class="card-footer p-0 border-top">
             <div class="px-3">
-              <button (click)="onCloseSession()"  class="btn btn-phoenix-secondary d-flex flex-center w-100">
+              <button style="background: transparent" (click)="onCloseSession()"  class="btn btn-phoenix-secondary d-flex flex-center w-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-log-out me-2">

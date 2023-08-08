@@ -1,7 +1,6 @@
 interface User {
   name: string;
   email: string;
-  grant: {id: number; name: string};
 }
 
 interface Company {
@@ -17,9 +16,18 @@ interface Company {
     longitude: string;
   };
 }
+
+type TypePermission = 'menu'  | 'option' | 'api';
+export interface Permissions {
+  id: number;
+  name: string;
+  type: TypePermission;
+  route: string;
+}
 export interface AuthUser {
   user: User;
+  grant: {id: number; name: string};
   company: Company;
   subscriptions: [];
-  permissions: [];
+  permissions: Permissions[];
 }

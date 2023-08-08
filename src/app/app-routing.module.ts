@@ -23,6 +23,14 @@ const routes: Routes = [
       {
         path: GlobalRoutes.DASHBOARD,
         loadComponent: () => import('./pages/dashboard/dashboard.component').then(component => component.DashboardComponent)
+      },
+      {
+        path: `${GlobalRoutes.SELLER_SERVICES}`,
+        loadComponent: () => import('./pages/seller-services/seller-services.component').then(component => component.SellerServicesComponent)
+      },
+      {
+        path: `${GlobalRoutes.STATIONS}`,
+        loadChildren: () => import('./pages/stations/stations.module').then(module => module.StationsModule)
       }
     ]
   }

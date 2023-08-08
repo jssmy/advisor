@@ -17,7 +17,7 @@ export class AuthService {
   ) { }
 
   public login(username: string, password: string) {
-    const authToken = sessionStorage.getItem('auth-token');
+    const authToken = localStorage.getItem('auth-token');
 
     if(authToken) {
       return of(JSON.parse(authToken) as AuthToken);
@@ -34,13 +34,13 @@ export class AuthService {
 
     return this.http.post<AuthToken>(environment.authToken,loginRequest)
       .pipe(
-        tap(accessToken => sessionStorage.setItem('auth-token', JSON.stringify(accessToken)))
+        tap(accessToken => localStorage.setItem('auth-token', JSON.stringify(accessToken)))
       );
   }
 
   public logout() {
 
-    const authToken: AuthToken = JSON.parse(sessionStorage.getItem('auth-token') as string) as AuthToken;
+    const authToken: AuthToken = JSON.parse(localStorage.getItem('auth-token') as string) as AuthToken;
 
     const accessToken = JwtHelper.decode(authToken.access_token);
 
@@ -52,18 +52,18 @@ export class AuthService {
     return this.http.delete(`${environment.revokeToken}/${accessToken.jti}`, {headers});
   }
   public userConfig(): Observable<AuthUser> {
-    const userConfig = sessionStorage.getItem('user-config');
+    const userConfig = localStorage.getItem('user-config');
     if(userConfig) {
       return of(JSON.parse(userConfig) as AuthUser)
     }
-    const authToken = JSON.parse(sessionStorage.getItem('auth-token') as string) as AuthToken;
+    const authToken = JSON.parse(localStorage.getItem('auth-token') as string) as AuthToken;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('X-Requested-With','XMLHttpRequest')
       .set('Authorization',`Bearer ${authToken.access_token}`);
 
     return this.http.get<AuthUser>(environment.authUserConfig, {headers})
-      .pipe(tap(config => sessionStorage.setItem('user-config', JSON.stringify(config))));
+      .pipe(tap(config => localStorage.setItem('user-config', JSON.stringify(config))));
   }
 
 }

@@ -15,10 +15,11 @@ import {AccessTokenEffects} from "./store/access-token/effects/access-token.effe
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,

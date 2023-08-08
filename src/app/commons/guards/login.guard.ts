@@ -15,11 +15,11 @@ export class LoginGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const can = !sessionStorage.getItem('auth-token');
-    if(!can) {
+
+    if(!!localStorage.getItem('auth-token')) {
       return this.router.navigate([GlobalRoutes.PAGE, GlobalRoutes.DASHBOARD]);
     }
-    return  can;
+    return  true;
   }
 
 }

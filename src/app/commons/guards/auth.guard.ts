@@ -21,11 +21,10 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const can = !!sessionStorage.getItem('auth-token');
-    if(!can) {
+    if(!localStorage.getItem('auth-token')) {
       return  this.router.navigate([GlobalRoutes.LOGIN]);
     }
-    return can;
+    return  true;
   }
 
 }
