@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: `${GlobalRoutes.SELLER_SERVICES}`,
-        loadComponent: () => import('./pages/seller-services/seller-services.component').then(component => component.SellerServicesComponent)
+        loadComponent: () => import('./pages/building-page/building-page.component').then(component => component.BuildingPageComponent)
       },
       {
         path: `${GlobalRoutes.STATIONS}`,

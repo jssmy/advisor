@@ -13,13 +13,10 @@ import {EffectsModule} from "@ngrx/effects";
 import {AuthUserEffects} from "./store/user/effects/auth-user.effects";
 import {AccessTokenEffects} from "./store/access-token/effects/access-token.effects";
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
