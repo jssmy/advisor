@@ -111,12 +111,21 @@ export class FormStationsComponent implements OnInit {
       images,
       company_name: this.presenter.nameControl?.value,
       ubigeo: {
-        deparment: this.presenter.departmentControl?.value?.id,
-        district: this.presenter.districtControl?.value?.id,
-        province: this.presenter.provinceControl?.value?.id
+        deparment: {
+          id: this.presenter.departmentControl?.value?.id,
+          name: this.presenter.departmentControl?.value?.name
+        },
+        province: {
+          id: this.presenter.districtControl?.value?.id,
+          name: this.presenter.districtControl?.value?.name
+        },
+        district: {
+          id: this.presenter.districtControl?.value?.id,
+          name: this.presenter.districtControl?.value?.name
+        }
       }
     };
-
+  
     this.stationService.afilliateStation(this.userConfig?.company?.id as number, station)
     .subscribe(() => {
       this.dialog.open(ModalAlertComponent, {

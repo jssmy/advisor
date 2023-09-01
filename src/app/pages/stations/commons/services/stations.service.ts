@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, merge, mergeMap, of, timer } from 'rxjs';
+import { Observable, map, merge, mergeMap, of, timer } from 'rxjs';
 import { BatchStation } from '../interfaces/batch-station';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -19,10 +19,11 @@ export class StationsService {
   }
 
   public afilliateStation(stationWoleSellerId: number, station: Station) {
-    return this.http.post(`${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.stationAfiliate}/${stationWoleSellerId}`, station);
+    return this.http.post(`${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.toAfiliateStation}/${stationWoleSellerId}`, station);
   }
 
-  public getStationsAfiliates(stationWoleSellerId: number) {
-  
+  public getStationsAfiliates(): Observable<Station[]> {
+    return this.http.get<Station[]>(`${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.getStationsAfiliate}`);
   }
+
 }

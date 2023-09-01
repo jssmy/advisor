@@ -31,7 +31,7 @@ export class FormStationPresenter {
                 nameControl: this.nameControl,
                 addressControl: this.addressControl,
                 departmentControl: this.departmentControl,
-                provinceControl: this.departmentControl,
+                provinceControl: this.provinceControl,
                 districtControl: this.districtControl,
                 imageControl: this.imageControl
             }

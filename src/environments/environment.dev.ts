@@ -14,7 +14,7 @@ export const environment: Environment = {
           revokeToken: 'api/v1/access/token',
           sellerServices: 'api/v1/seller-services',
           stationRecoveryBatch: 'api/v1/station/recovery-batch',
-          stationAfiliate: 'api/v1/station/afiliar',
+          toAfiliateStation: 'api/v1/station/afiliar',
           getStationsAfiliate: 'api/v1/station/afiliados'
         }
       }

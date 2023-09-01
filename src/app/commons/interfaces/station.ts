@@ -1,9 +1,13 @@
 import { FileSrc } from "./file-src";
 
+interface UbigeoObject {
+    id: string;
+    name: string;
+}
 interface Ubigeo {
-    deparment: string;
-    province: string;
-    district: string;
+    deparment: UbigeoObject;
+    province: UbigeoObject;
+    district: UbigeoObject;
 }
 
 export interface Station {

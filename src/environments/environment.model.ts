@@ -13,7 +13,7 @@ interface OnpremiseEndPoint {
     authUserConfig: string;
     sellerServices: string;
     stationRecoveryBatch: string;
-    stationAfiliate: string;
+    toAfiliateStation: string;
     getStationsAfiliate: string;
 }
 
