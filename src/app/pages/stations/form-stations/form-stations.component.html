@@ -1,11 +1,97 @@
 <div class="content">
-  <div class="row gy-3 mb-6 justify-content-between">
-    <div class="col-md-9 col-auto">
-      <h2 class="mb-2 text-1100">Afiliar estación</h2>
-      <h5 class="text-700 fw-semi-bold">Afilie a {{(userConfig$ | async)?.company?.company_name}} una nueva estación</h5>
-    </div>
-  </div>
-  <div id="products">
 
+  <div class="col-md-8 col-xs-12">
+    <div class="row gy-3 mb-6 justify-content-between">
+      <div class="col-md-9 col-auto">
+        <h2 class="mb-2 text-1100">Afiliar estación</h2>
+        <h5 class="text-700 fw-semi-bold">Afilie a {{(userConfig$ | async)?.company?.company_name}} una nueva estación
+        </h5>
+      </div>
+    </div>
+
+    <app-search-input placeHolder="Buscar grifo" (onSearch)="onSearch($event)">
+      <div search-item-list>
+        <div class="list pb-3">
+
+          <div class="py-2">
+
+
+            <div *ngFor="let station of stations; let indexButton = index">
+              <button   appOnClickElement="btn-close-search-input"
+                        (click)="onSelected(station)"
+                        class="dropdown-item py-2 d-flex align-items-center h-100 pb-3 pt-3">
+                <div class="file-thumbnail me-2">
+                  <img class="h-100 w-100 fit-cover rounded-3" src="assets/images/logo.png" alt="Preview ">
+                </div>
+                <div class="flex-1">
+                  <h6 class="mb-0 text-1000 title mb-2">RUC: {{station.ruc}} </h6>
+                  <h6 class="mb-0 text-1000 title mb-2">{{station.name}} </h6>
+                  <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600">{{station.address}}</span></p>
+                </div>
+              </button>
+              <hr *ngIf="indexButton != stations.length - 1" class="text-200 my-0">
+            </div>
+            <ng-container>
+              <app-search-input-fallback *ngIf="isEnabledFallBackText">
+                <p>{{fallBackText}}</p>
+              </app-search-input-fallback>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+    </app-search-input>
+
+    <form [formGroup]="presenter.form">
+      <div class="mb-3">
+        <label class="form-label" for="basic-ruc">RUC</label>
+        <input readonly class="form-control" id="basic-ruc" formControlName="rucControl" type="text" placeholder="">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="basic-razon-social">Razón social</label>
+        <input readonly class="form-control" id="basic-razon-social"  formControlName="nameControl"  type="text" placeholder="">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="basic-addres">Dirección</label>
+        <input readonly class="form-control" id="basic-form-email" formControlName="addressControl"  type="text" placeholder="">
+      </div>
+      <div class="mb-3">
+        <div class="btn-group position-static col-md-4 col-xs-12">
+          <app-dropdown idHtml="dropdown-departament"
+                        (onChangeEvent)="onSelectedDeparment($event)"
+                        label="Departamento"
+                        formControlName="departmentControl"
+                        [items]="departmens"></app-dropdown>
+        </div>
+        <div class="btn-group position-static col-md-4 col-xs-12 justify-content-center">
+          <app-dropdown label="Provincia"
+                        idHtml="dropdown-provinces"
+                        formControlName="provinceControl"
+                        (onChangeEvent)="onSelectedProvince($event)"
+                        [items]="provinces"></app-dropdown>
+        </div>
+        <div class="btn-group position-static col-md-4 col-xs-12 justify-content-end">
+          <app-dropdown label="Distrito"
+                        idHtml="dropdown-district"
+                        formControlName="districtControl"
+                        [items]="districts"></app-dropdown>
+        </div>
+      </div>
+      <div class="mb-3">
+
+        <app-upload-file formControlName="imageControl" label="Arrastra el logo de la estación aqui"></app-upload-file>
+
+      </div>
+      <button [disabled]="!presenter.isValidForm()" (click)="save()" class="btn btn-primary" type="button">
+        <svg class="svg-inline--fa fa-plus me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus"
+          role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+          <path fill="currentColor"
+            d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z">
+          </path>
+        </svg>Afiliar
+
+      </button>
+    </form>
   </div>
+
 </div>

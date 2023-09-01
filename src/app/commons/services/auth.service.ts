@@ -6,6 +6,7 @@ import {environment} from "../../../environments/environment";
 import {AuthUser} from "../../store/user/models/auth-user";
 import {Observable, of, tap} from "rxjs";
 import {JwtHelper} from "../helpers/jwt.helper";
+import { AuthTokenStore } from '../helpers/auth-token.store';
 
 @Injectable({
   providedIn: 'root'
@@ -17,52 +18,46 @@ export class AuthService {
   ) { }
 
   public login(username: string, password: string) {
-    const authToken = localStorage.getItem('auth-token');
-
-    if(authToken) {
-      return of(JSON.parse(authToken) as AuthToken);
-    }
-
     const loginRequest: AuthLogin = {
           password,
           username,
-          client_id: environment.client_id,
-          client_secret: environment.client_secret,
-          grant_type: environment.grant_type,
+          client_id: environment.onpremise.cliente_id,
+          client_secret: environment.onpremise.client_secret,
+          grant_type: environment.onpremise.grant_type,
           scope: '',
     };
 
-    return this.http.post<AuthToken>(environment.authToken,loginRequest)
+    return this.http.post<AuthToken>(`${environment.onpremise.baseUrl}/${environment.onpremise.path.authToken}`,loginRequest)
       .pipe(
-        tap(accessToken => localStorage.setItem('auth-token', JSON.stringify(accessToken)))
+        tap(accessToken => AuthTokenStore.setToken(accessToken))
       );
   }
 
   public logout() {
 
-    const authToken: AuthToken = JSON.parse(localStorage.getItem('auth-token') as string) as AuthToken;
+    const authToken = AuthTokenStore.getToken();
 
     const accessToken = JwtHelper.decode(authToken.access_token);
 
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('X-Requested-With','XMLHttpRequest')
-      .set('Authorization',`Bearer ${authToken.access_token}`);
+    // const headers = new HttpHeaders()
+    //   .set('Content-Type', 'application/json')
+    //   .set('X-Requested-With','XMLHttpRequest')
+    //   .set('Authorization',`Bearer ${authToken.access_token}`);
 
-    return this.http.delete(`${environment.revokeToken}/${accessToken.jti}`, {headers});
+    return this.http.delete(`${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.revokeToken}/${accessToken.jti}`);
   }
   public userConfig(): Observable<AuthUser> {
     const userConfig = localStorage.getItem('user-config');
     if(userConfig) {
       return of(JSON.parse(userConfig) as AuthUser)
     }
-    const authToken = JSON.parse(localStorage.getItem('auth-token') as string) as AuthToken;
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('X-Requested-With','XMLHttpRequest')
-      .set('Authorization',`Bearer ${authToken.access_token}`);
+    // const authToken = JSON.parse(localStorage.getItem('auth-token') as string) as AuthToken;
+    // const headers = new HttpHeaders()
+    //   .set('Content-Type', 'application/json')
+    //   .set('X-Requested-With','XMLHttpRequest')
+    //   .set('Authorization',`Bearer ${authToken.access_token}`);
 
-    return this.http.get<AuthUser>(environment.authUserConfig, {headers})
+    return this.http.get<AuthUser>(`${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.authUserConfig}`)
       .pipe(tap(config => localStorage.setItem('user-config', JSON.stringify(config))));
   }
 

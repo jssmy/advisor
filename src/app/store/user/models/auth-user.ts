@@ -4,6 +4,7 @@ interface User {
 }
 
 interface Company {
+  id: number;
   ruc: string;
   company_name: string;
   company_type: string;

@@ -9,6 +9,7 @@ import {loadAuthUserConfigs, loadAuthUserConfigsSuccess} from "../../../store/us
 import {selectAuthUserConfigLoadig} from "../../../store/user/selectors/auth-user.selector";
 import {AppState} from "../../../store/interfaces/app-state";
 import {filter, Subscription} from "rxjs";
+import { LoaderService } from '../../services/loader.service';
 
 
 @Component({
@@ -24,11 +25,10 @@ import {filter, Subscription} from "rxjs";
   ]
 })
 export class LayoutComponent implements OnInit, OnDestroy{
-  isActiveLoader$ =  this.storage.select(selectAuthUserConfigLoadig);
   private readonly subscriptions: Subscription[] = [];
   constructor(
-    private readonly authService: AuthService,
-    private readonly storage: Store<AppState>
+    private readonly storage: Store<AppState>,
+    public readonly loader: LoaderService
   ) {}
 
   ngOnInit(): void {

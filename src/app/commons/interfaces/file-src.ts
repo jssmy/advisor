@@ -1,0 +1,1 @@
+export type FileSrc = Pick<File, 'name' | 'type'> & { src: string };
