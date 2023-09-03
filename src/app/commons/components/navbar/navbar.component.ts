@@ -58,9 +58,7 @@ export class NavbarComponent implements OnDestroy {
   }
 
   cleanSession() {
-    localStorage.clear();
-    this.store.dispatch(cleanAccessTokenStore());
-    this.store.dispatch(cleanAuthUserConfigStorage());
+    this.authService.deleteSession();
     this.router.navigate([GlobalRoutes.LOGIN]).finally();
   }
 

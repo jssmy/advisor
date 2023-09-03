@@ -1,12 +1,11 @@
-import {inject, Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {filter, Observable} from 'rxjs';
-import {Store} from "@ngrx/store";
-import {AppState} from "../../store/interfaces/app-state";
-import {selectAccessToken} from "../../store/access-token/selectors/access-token.selectors";
-import {map} from "rxjs/operators";
-import {loadAccessToken} from "../../store/access-token/actions/access-token.actions";
-import {GlobalRoutes} from "../constants/global-routes";
+import { Injectable } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
+import { GlobalRoutes } from "../constants/global-routes";
+import { AuthTokenStore } from '../helpers/auth-token.store';
+import { JwtHelper } from '../helpers/jwt.helper';
+import { DateHelper } from '../helpers/date.helper';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +13,28 @@ import {GlobalRoutes} from "../constants/global-routes";
 export class AuthGuard {
 
   constructor(
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {
   }
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if(!localStorage.getItem('auth-token')) {
-      return  this.router.navigate([GlobalRoutes.LOGIN]);
+    const authToken = AuthTokenStore.getToken();
+
+    if (!authToken) {
+      return this.router.navigate([GlobalRoutes.LOGIN]);
     }
-    return  true;
+
+    const accessToken = JwtHelper.decode(authToken.access_token);
+
+    const expiredTime = DateHelper.dateFromUnix(accessToken.exp);
+    const isExpired = expiredTime.diff(DateHelper.current(), 'minutes') <= 0;
+
+    if (isExpired) {
+      this.authService.deleteSession();
+      return this.router.navigate([GlobalRoutes.LOGIN]);
+    }
+    return true;
   }
 
 }

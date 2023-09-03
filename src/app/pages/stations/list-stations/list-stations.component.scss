@@ -1,3 +1,20 @@
-td > a > img {
-  position: inherit !important;
+.image-station {
+  width: 50px !important;
+  height: 50px !important;
+  padding: 0px;
+}
+
+.image-station > img {
+  width: 40px !important;
+}
+
+button > svg {
+  font-size: 1.5em !important;
+  color: white !important;
+  align-items: center;
+}
+
+button.page-link> svg {
+  color: unset !important;
+  
 }

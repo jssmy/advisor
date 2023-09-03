@@ -1,7 +1,7 @@
-import {Component, forwardRef, Input} from '@angular/core';
-import {InputType} from "../../constants/input-type";
-import {CommonModule} from "@angular/common";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import { Component, forwardRef, Input } from '@angular/core';
+import { InputType } from "../../constants/input-type";
+import { CommonModule } from "@angular/common";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 
 
@@ -21,7 +21,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
   ],
   standalone: true
 })
-export class InputComponent implements ControlValueAccessor{
+export class InputComponent implements ControlValueAccessor {
   @Input() id?: string;
   @Input() label?: string;
   @Input() placeHolder?: string = '';
@@ -50,11 +50,11 @@ export class InputComponent implements ControlValueAccessor{
 
 
   onInput(event: any) {
-  
+
     const value = (event.target as HTMLInputElement).value
     this.value = value;
     this.onTouch();
-    this.onChange(this.value);  
+    this.onChange(this.value);
   }
 
 }

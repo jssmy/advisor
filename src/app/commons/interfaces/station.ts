@@ -5,15 +5,17 @@ interface UbigeoObject {
     name: string;
 }
 interface Ubigeo {
-    deparment: UbigeoObject;
+    department: UbigeoObject;
     province: UbigeoObject;
     district: UbigeoObject;
 }
 
 export interface Station {
+    id?: number;
     ruc: string;
     company_name: string;
     address: string;
     ubigeo:  Ubigeo;
-    images: FileSrc[]
+    images: FileSrc[];
+    created_at?: number;
 }

@@ -15,6 +15,7 @@ interface OnpremiseEndPoint {
     stationRecoveryBatch: string;
     toAfiliateStation: string;
     getStationsAfiliate: string;
+    unsetAfiliatedStation: string;
 }
 
 interface OnpremiseApi{

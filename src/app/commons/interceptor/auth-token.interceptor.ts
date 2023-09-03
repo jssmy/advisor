@@ -9,23 +9,20 @@ import {
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthTokenStore } from '../helpers/auth-token.store';
-import { JwtHelper } from '../helpers/jwt.helper';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
 
-  constructor() {}
-
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(request.url);
-    if(this.isOnpremiseUrl(request.url)) {
-        return next.handle(
-          request.clone(
-            {
-              headers: this.getOnpremiseHeaders()
-            }
-          )
-        );
+
+    if (this.isOnpremiseUrl(request.url)) {
+      return next.handle(
+        request.clone(
+          {
+            headers: this.getOnpremiseHeaders()
+          }
+        )
+      );
     }
     return next.handle(request);
   }
@@ -39,7 +36,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
     return new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('X-Requested-With','XMLHttpRequest')
-      .set('Authorization',`Bearer ${authToken.access_token}`);
+      .set('X-Requested-With', 'XMLHttpRequest')
+      .set('Authorization', `Bearer ${authToken.access_token}`);
   }
 }

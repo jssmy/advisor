@@ -79,7 +79,7 @@
       </div>
       <div class="mb-3">
 
-        <app-upload-file formControlName="imageControl" label="Arrastra el logo de la estación aqui"></app-upload-file>
+        <app-upload-file [multipleFiles]="true" formControlName="imageControl" label="Arrastra imagenes de la estación aquí"></app-upload-file>
 
       </div>
       <button [disabled]="!presenter.isValidForm()" (click)="save()" class="btn btn-primary" type="button">

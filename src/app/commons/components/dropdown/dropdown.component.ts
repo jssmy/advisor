@@ -42,7 +42,7 @@ export class DropdownComponent implements OnChanges, ControlValueAccessor {
   }
   writeValue(value: any): void {
     this.value = value;
-    if(!this.value) {
+    if (!this.value) {
       this.selectedItem = null;
     }
   }
@@ -65,9 +65,9 @@ export class DropdownComponent implements OnChanges, ControlValueAccessor {
   ngOnChanges(changes: SimpleChanges): void {
 
     if (changes.hasOwnProperty('items')) {
-        this.itemsFiltered = this.items.slice();
-        this.selectedItem = null;
-        this.value = null;
+      this.itemsFiltered = this.items.slice();
+      this.selectedItem = null;
+      this.value = null;
     }
 
   }

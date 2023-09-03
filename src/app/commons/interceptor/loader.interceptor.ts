@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
-  
+
   excludeURL = [
     `${environment.onpremise.baseUrl}/${environment.onpremise.path.V1.stationRecoveryBatch}`
   ];
@@ -20,19 +20,17 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   constructor(
     private loader: LoaderService
-  ) {}
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(!this.excludeURL.some(url => request.url.includes(url))) {
-        console.log('loading...')
-        this.countRequest = this.countRequest  + 1;
-        this.loader.enabled();
+    if (!this.excludeURL.some(url => request.url.includes(url))) {
+      this.countRequest = this.countRequest + 1;
+      this.loader.enabled();
     }
     return next.handle(request).pipe(
       finalize(() => {
         this.countRequest = this.countRequest - 1;
-        if(this.countRequest <= 0) {
-          console.log('loaded...');
+        if (this.countRequest <= 0) {
           this.loader.disabled();
           this.countRequest = 0;
         }

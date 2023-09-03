@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy } from '@angular/core';
 import {AuthService} from "../../commons/services/auth.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -34,7 +34,7 @@ import {AuthToken} from "../../store/access-token/models/auth-token";
 
   ]
 })
-export class LoginComponent implements OnDestroy, OnInit{
+export class LoginComponent implements OnDestroy {
   private logingSubs$ = new Subscription();
   isActiveLoader$ = this.store.select(selectAccessTokenLoading);
   accessTokenError$ = this.store.select(selectAccessTokenError);
@@ -46,10 +46,6 @@ export class LoginComponent implements OnDestroy, OnInit{
     private router: Router,
     private readonly store: Store<AppState>
   ) {}
-
-  ngOnInit() {
-
-  }
 
   public login() {
     this.accessToken$

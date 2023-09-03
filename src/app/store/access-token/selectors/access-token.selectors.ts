@@ -1,7 +1,6 @@
-import {AppState} from "../../interfaces/app-state";
-import {createSelector} from "@ngrx/store";
-import {AuthUserState} from "../../user/states/auth-user-state";
-import {AuthTokenState} from "../../interfaces/auth-token-state";
+import { AppState } from "../../interfaces/app-state";
+import { createSelector } from "@ngrx/store";
+import { AuthTokenState } from "../../interfaces/auth-token-state";
 
 export const selectAccessTokenFeature = (state: AppState) => state.authTokenState;
 
@@ -17,5 +16,5 @@ export const selectAccessTokenLoading = createSelector(
 
 export const selectAccessTokenError = createSelector(
   selectAccessTokenFeature,
-  (state : AuthTokenState) => state.error
+  (state: AuthTokenState) => state.error
 );

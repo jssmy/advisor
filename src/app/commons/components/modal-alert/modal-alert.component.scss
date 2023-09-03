@@ -1,8 +1,52 @@
 mat-dialog-content {
-    min-width: 300px;
+    min-width: 30em;
     text-align: center;
 }
 
 .title > h3 {
     text-align: center;
+}
+
+.mat-option-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    button {
+        min-width: 12em;
+    }
+}
+
+
+.mat-message {
+    min-height: 5em;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
+.btn:hover {
+    color: inherit;
+    text-decoration: none;
+    background-color: inherit;
+    border-color: inherit;
+}
+
+.btn:active, .btn:focus {
+    color: inherit;
+    background-color: inherit;
+    border-color: inherit;
+    box-shadow: inherit;
+}
+
+.has-just-one-button {
+    justify-content: center !important;
+}
+
+.has-just-one-button > button {
+    width: 15em !important;
 }

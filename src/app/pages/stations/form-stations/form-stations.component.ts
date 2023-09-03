@@ -7,13 +7,16 @@ import { BatchStation } from '../commons/interfaces/batch-station';
 import { FormStationPresenter } from './form-station.presenter';
 import { DropdownItem } from 'src/app/commons/components/dropdown/commons/interfaces/dropdown-item';
 import { UbigeoService } from 'src/app/commons/services/ubigeo.service';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { Deparment, Province } from 'src/app/commons/interfaces/ubigeo';
 import { AuthUser } from 'src/app/store/user/models/auth-user';
 import { Station } from 'src/app/commons/interfaces/station';
 import { FileSrc } from 'src/app/commons/interfaces/file-src';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalAlertComponent } from 'src/app/commons/components/modal-alert/modal-alert.component';
+import { AFILIED_STATION_SUCCESS } from '../commons/constants/afilied-station-success';
+import { CONFIRM_ACTION } from '../commons/constants/confirm-action';
+import { ERROR_ALERT } from '../commons/constants/error-alert';
 
 @Component({
   selector: 'app-form-stations',
@@ -96,6 +99,15 @@ export class FormStationsComponent implements OnInit {
 
 
   save() {
+    this.dialog.open(ModalAlertComponent, { data: CONFIRM_ACTION})
+    .afterClosed()
+    .pipe(filter(confired => !!confired))
+    .subscribe(() => this.confirmedToAfiliate())
+    
+    
+  }
+
+  private confirmedToAfiliate() {
     const files = this.presenter.imageControl?.value as FileSrc[];
     
     const images = files.map(file => ({
@@ -111,13 +123,13 @@ export class FormStationsComponent implements OnInit {
       images,
       company_name: this.presenter.nameControl?.value,
       ubigeo: {
-        deparment: {
+        department: {
           id: this.presenter.departmentControl?.value?.id,
           name: this.presenter.departmentControl?.value?.name
         },
         province: {
-          id: this.presenter.districtControl?.value?.id,
-          name: this.presenter.districtControl?.value?.name
+          id: this.presenter.provinceControl?.value?.id,
+          name: this.presenter.provinceControl?.value?.name
         },
         district: {
           id: this.presenter.districtControl?.value?.id,
@@ -126,20 +138,17 @@ export class FormStationsComponent implements OnInit {
       }
     };
   
-    this.stationService.afilliateStation(this.userConfig?.company?.id as number, station)
+    this.stationService.afilliateStation(station)
     .subscribe(() => {
       this.dialog.open(ModalAlertComponent, {
-        data: {
-          title: 'Exito!',
-          message: 'Se afilio con exito'
-        }
+        data: AFILIED_STATION_SUCCESS
       }).afterClosed()
-      .subscribe(() => location.reload());
+      .subscribe({
+        next: () => location.reload(),
+        error:() => this.dialog.open(ModalAlertComponent, {data: ERROR_ALERT})
+      });
     });
-    
   }
-
-
 
 
 }

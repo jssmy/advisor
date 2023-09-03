@@ -15,7 +15,8 @@ export const environment: Environment = {
           sellerServices: 'api/v1/seller-services',
           stationRecoveryBatch: 'api/v1/station/recovery-batch',
           toAfiliateStation: 'api/v1/station/afiliar',
-          getStationsAfiliate: 'api/v1/station/afiliados'
+          getStationsAfiliate: 'api/v1/station/afiliados',
+          unsetAfiliatedStation: 'api/v1/station/unset'
         }
       }
     }

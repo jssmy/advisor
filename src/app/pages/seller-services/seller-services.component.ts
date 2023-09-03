@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {SellerServicesService} from "./services/seller-services.service";
-import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { SellerServicesService } from "./services/seller-services.service";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-seller-services',
@@ -11,7 +11,7 @@ import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
   ],
   standalone: true
 })
-export class SellerServicesComponent implements OnInit{
+export class SellerServicesComponent implements OnInit {
   sellerServices$ = this.sellerServices.getServices();
   constructor(
     private readonly sellerServices: SellerServicesService

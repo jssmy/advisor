@@ -3,7 +3,6 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RegxExpressions } from '../../constants/regx-expressions';
 import * as randomstring from 'randomstring';
-import { timer } from 'rxjs';
 import { AppDirectivesModule } from '../../directives/app-directives.module';
 
 interface UploadFile extends File {
